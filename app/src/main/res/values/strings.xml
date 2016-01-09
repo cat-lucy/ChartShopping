@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Chart Shopping</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="action_statistics">Statistics</string>
+    <string name="category_dialog">Select a category</string>
+
+    <string name="action_pick_month">Select the month</string>
+
+    <string name="action_add_line">Add purchase</string>
+    <string name="category_list_dialog">Add new purchase</string>
+    <string name="category_list_dialog_positive">Add</string>
+    <string name="category_list_dialog_neutral">Cancel</string>
+</resources>
