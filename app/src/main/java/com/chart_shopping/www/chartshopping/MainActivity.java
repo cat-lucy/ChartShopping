@@ -9,11 +9,13 @@ import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.chart_shopping.www.chartshopping.R;
 import com.chart_shopping.www.chartshopping.categories.CategoryAdapter;
@@ -28,7 +30,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static final String PURCHASE_WITHOUT_CATEGORY = "-1";
     private static final int CATEGORY_DIALOG = 0;
 
-    private ListView new_purchase;
+    private ListView new_purchases;
+    private TextView no_new_purchases;
     private Database database;
     Purchase[] purchases;
     Purchase purchase;
@@ -57,8 +60,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
-        new_purchase = (ListView) findViewById(R.id.new_purchase);
-        new_purchase.setOnItemClickListener(this);
+        no_new_purchases = (TextView) findViewById(R.id.no_new_purchase_text);
+
+        new_purchases = (ListView) findViewById(R.id.new_purchases);
+        new_purchases.setOnItemClickListener(this);
         database = new Database(this);
         listViewUpdate();
     }
@@ -68,12 +73,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         String question = DatabaseContract.CATEGORY + "= ?";
         purchases = database.getPurchases(question, new String[]{PURCHASE_WITHOUT_CATEGORY});
         if (purchases == null) {
-            new_purchase.setVisibility(View.INVISIBLE);
+            new_purchases.setVisibility(View.INVISIBLE);
+            no_new_purchases.setVisibility(View.VISIBLE);
+            no_new_purchases.setText("Новых покупок нет");
             return;
         }
-        new_purchase.setVisibility(View.VISIBLE);
+        no_new_purchases.setVisibility(View.INVISIBLE);
+        new_purchases.setVisibility(View.VISIBLE);
         PurchaseAdapter main_adapter = new PurchaseAdapter(this, purchases);
-        new_purchase.setAdapter(main_adapter);
+        new_purchases.setAdapter(main_adapter);
         purchase = null;
     }
 

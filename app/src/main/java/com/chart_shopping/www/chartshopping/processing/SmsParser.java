@@ -10,7 +10,7 @@ import java.util.Date;
 
 public class SmsParser {
 
-    private final String VISA = "VISA4681";
+    private final String VISA = "VISA";  ///// !!!!!!!!!!!!!!!!!!!!!!!!
     private final String BALANCE = "Баланс:";
     private final String REFUND = "возврат";
     private final String BUY = "покупка";
@@ -32,7 +32,7 @@ public class SmsParser {
         text_length = text.length();
         int i = 0;
         i = createWord(i);
-        String firstWord = word;
+        String firstWord = word.substring(0, 4);
         if (!firstWord.equals(VISA))
             return null;
         while (i < text_length) {
@@ -101,7 +101,7 @@ public class SmsParser {
         return dateFormat.format(new Date());
     }
 
-    private boolean checkTime() { // check
+    private boolean checkTime() {
         int length = word.length();
         if (length != 5) return false;
         for (int i = 0; i < length; i++) {
@@ -115,7 +115,7 @@ public class SmsParser {
         return true;
     }
 
-    private int createWord(int pos) { //check
+    private int createWord(int pos) {
         word = "";
         while (pos < text_length && text.charAt(pos) != ' ') {
             word += text.charAt(pos);
@@ -124,7 +124,7 @@ public class SmsParser {
         return pos;
     }
 
-    private int createNumber(int pos) { //check
+    private int createNumber(int pos) {
         num = 0;
         while (pos < text_length && text.charAt(pos) >= '0' && text.charAt(pos) <= '9') {
             num = num * 10 + (text.charAt(pos) - '0');
@@ -145,7 +145,7 @@ public class SmsParser {
         return pos;
     }
 
-    private int createOrganization(int pos) { //check
+    private int createOrganization(int pos) {
         String org = "";
         int prev_pos = pos;
         pos = createWord(++pos);
